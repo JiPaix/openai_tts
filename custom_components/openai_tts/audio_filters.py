@@ -40,7 +40,7 @@ LOUDNESS_FILTER = (
 )
 
 # The gain a profile may apply, in decibels.
-GAIN_DB_MIN = -12.0
+GAIN_DB_MIN = -99.0
 GAIN_DB_MAX = 12.0
 GAIN_DB_STEP = 0.5
 DEFAULT_GAIN_DB = 0.0

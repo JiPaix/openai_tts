@@ -1782,20 +1782,17 @@ async def announce(
         if needs_restorer
         else None
     )
-    if manual_players:
-        # These are the targets that get the announcement from Home
-        # Assistant and not from their own announcement layer. One that
-        # Music Assistant also plays to either stops its whole group,
-        # when ``prepare()`` pauses it, or on Cast stays silent
-        # afterwards, paused or not. Say which Music Assistant entity to
-        # target instead. The check only reads registries and must never
-        # cost the announcement.
+    if restorer is not None and pause_for_manual:
+        # These are the targets ``prepare()`` will pause. One that Music
+        # Assistant also plays to stops its whole group, so say which
+        # Music Assistant entity to target instead. The check only reads
+        # registries and must never cost the announcement.
         native = set() if force_manual else _native_announce_targets(
             hass, manual_players
         )
-        exposed = [eid for eid in manual_players if eid not in native]
+        paused = [eid for eid in manual_players if eid not in native]
         try:
-            warn_music_assistant_twins(hass, exposed)
+            warn_music_assistant_twins(hass, paused)
         except Exception:
             _LOGGER.debug("Could not check for Music Assistant twins", exc_info=True)
 
